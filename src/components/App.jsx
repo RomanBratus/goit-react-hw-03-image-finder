@@ -19,6 +19,7 @@ export class App extends Component {
     showModal: false,
     largeImageURL: 'largeImageURL',
     id: '',
+    tags: '',
   };
 
   componentDidUpdate(_, prevState) {
@@ -47,16 +48,14 @@ export class App extends Component {
     try {
       const { hits, totalHits } = await fetchImages(searchQuery, page);
       console.log(totalHits, hits);
-      const normalizedImages = hits.map(
-        ({ id, webformatURL, largeImageURL, tags }) => {
-          return {
-            id,
-            webformatURL,
-            largeImageURL,
-            tags,
-          };
-        }
-      );
+      const normalizedImages = hits.map(({ id, webformatURL, largeImageURL, tags }) => {
+        return {
+          id,
+          webformatURL,
+          largeImageURL,
+          tags,
+        };
+      });
 
       if (totalHits === 0) {
         alert('Sorry, we do not find images');
@@ -71,14 +70,16 @@ export class App extends Component {
       this.setState({ isLoading: false });
     }
   };
+
   onloadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
-  openModal = largeImageURL => {
+  openModal = (largeImageURL, tags) => {
     this.setState({
       showModal: true,
       largeImageURL: largeImageURL,
+      tags: tags,
     });
     console.log(largeImageURL);
   };
@@ -90,8 +91,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, loadMore, page, showModal, largeImageURL } =
-      this.state;
+    const { images, isLoading, loadMore, page, showModal, largeImageURL, tags } = this.state; // Додано tags у розпакування стану
 
     return (
       <div>
@@ -100,7 +100,11 @@ export class App extends Component {
         <ImageGallery images={images} openModal={this.openModal} />
         {loadMore && <Button onloadMore={this.onloadMore} page={page} />}
         {showModal && (
-          <Modal largeImageURL={largeImageURL} onClose={this.closeModal} />
+          <Modal
+            largeImageURL={largeImageURL}
+            onClose={this.closeModal}
+            tags={tags} // Додано розпакування для властивості tags
+          />
         )}
       </div>
     );

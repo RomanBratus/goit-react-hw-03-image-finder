@@ -1,10 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { App } from 'components/App';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const modalRoot = document.getElementById('modal-root');
+
+if (!modalRoot) {
+  const newModalRoot = document.createElement('div');
+  newModalRoot.id = 'modal-root';
+  document.body.appendChild(newModalRoot);
+}
+
+ReactDOM.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 );

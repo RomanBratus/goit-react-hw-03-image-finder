@@ -22,7 +22,8 @@ ImageGallery.propTypes = {
       id: PropTypes.number.isRequired,
       largeImageURL: PropTypes.string.isRequired,
       webformatURL: PropTypes.string.isRequired,
-    }).isRequired
+      tags: PropTypes.string.isRequired,
+    })
   ).isRequired,
 
   openModal: PropTypes.func.isRequired,
